@@ -1,0 +1,40 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: ./dev.dockerfile
+    container_name: ams-app
+    restart: always
+    volumes:
+      - ./app:/app
+      - /app/.next
+      - /app/node_modules
+    ports:
+      - 6001:3000
+    env_file: '.env'
+
+  api:
+    build:
+      context: ./api
+      dockerfile: ./dev.dockerfile
+    container_name: ams-api
+    restart: always
+    volumes:
+      - ./api:/app
+    ports:
+      - 6002:8000
+    env_file: '.env'
+
+  mongodb:
+    image: mongo:6.0.1
+    container_name: ams-mongo
+    restart: always
+    ports:
+      - 6003:27017
+    volumes:
+      - ./mongodb:/data/db
+
+networks:
+  default:
+    name: ams-network
