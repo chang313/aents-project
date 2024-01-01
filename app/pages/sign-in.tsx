@@ -15,6 +15,10 @@ import { request_signin } from '../_requests/signin';
 import { setUser } from '../_lib/user';
 import { useRouter } from 'next/router';
 import { LINK_INDEX } from '../_consts/Links';
+import Snackbar from '@mui/material/Snackbar'
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import {useState} from 'react'
 
 function Copyright(props: any) {
   return (
@@ -33,6 +37,42 @@ function Copyright(props: any) {
   );
 }
 
+function Popup(props: any) {
+  const {open, setOpen, message} = props;
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  return (
+    <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={handleClose}
+      message={message}
+      action={action}
+    />
+
+  )
+}
+
 // const theme = createTheme();
 interface LoginFormElements extends HTMLFormElement {
   email: HTMLInputElement;
@@ -43,6 +83,9 @@ interface LoginFormTarget extends React.FormEvent<HTMLFormElement> {
 }
 
 export default function SignIn() {
+  const [authError, setauthError] = useState(false);
+  const [authMessage, setauthMessage] = useState<string>('');
+  
   const router = useRouter();
 
   const handleSubmit = async (e: LoginFormTarget) => {
@@ -57,6 +100,8 @@ export default function SignIn() {
       router.push(LINK_INDEX);
     } else {
       console.log(response.message);
+      setauthError(true);
+      setauthMessage(response.message);
     }
   };
 
@@ -127,6 +172,7 @@ export default function SignIn() {
         </Box>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
+      {authError && <Popup open={true} setOpen={setauthError} message={authMessage} />}
     </Container>
   );
 }
