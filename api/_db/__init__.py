@@ -12,3 +12,7 @@ def get_database():
 
 def get_user_col():
     return get_database().get_collection("users")
+
+
+def get_article_col():
+    return get_database().get_collection("articles")

@@ -11,3 +11,6 @@ def _generate_template(keyword: str):
 
 def generate_user_id():
     return _generate_template("user")
+
+def generate_article_id():
+    return _generate_template("article")
