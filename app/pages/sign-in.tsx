@@ -97,7 +97,7 @@ export default function SignIn() {
     const response = await request_signin({ username, password });
     if (response.success) {
       setUser(response.access_token);
-      router.push(LINK_MAIN);
+      router.push(LINK_INDEX);
     } else {
       console.log(response.message);
       setauthError(true);
