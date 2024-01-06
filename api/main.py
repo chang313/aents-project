@@ -24,4 +24,4 @@ def read_root():
 
 app.include_router(AuthRouter, prefix="")
 app.include_router(UserRouter, prefix="/user")
-app.include_router(ArticleRouter, prefix="/article")
+app.include_router(ArticleRouter, prefix="/articles")
