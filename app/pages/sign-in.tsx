@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { request_signin } from '../_requests/signin';
 import { setUser } from '../_lib/user';
 import { useRouter } from 'next/router';
-import { LINK_INDEX } from '../_consts/Links';
+import { LINK_INDEX, LINK_MAIN } from '../_consts/Links';
 import Snackbar from '@mui/material/Snackbar'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -97,7 +97,7 @@ export default function SignIn() {
     const response = await request_signin({ username, password });
     if (response.success) {
       setUser(response.access_token);
-      router.push(LINK_INDEX);
+      router.push(LINK_MAIN);
     } else {
       console.log(response.message);
       setauthError(true);

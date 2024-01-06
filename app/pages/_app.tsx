@@ -31,7 +31,9 @@ export default function App({
   }, [pageProps.protected, router]);
 
   const FilteredComponent = () => {
-    if (ALLOWED_PAGES.includes(router.pathname))
+    console.log('router.pathname:', router.pathname, router.query);
+    if (ALLOWED_PAGES.some((path) => router.pathname.startsWith(path))) // change it allows all path that has substring 
+    // if (ALLOWED_PAGES.includes(router.pathname))
       return <Component {...pageProps} />;
     if (!user) return <Backdrop open />;
     return <Component {...pageProps} />;
