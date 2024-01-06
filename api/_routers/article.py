@@ -66,8 +66,3 @@ def read_all_article():
     response = get_all_article()
 
     return response
-
-@router.get(path="/test", tags=[SwaggerTag.ARTICLE])
-def test():
-    response = 'test'
-    return {"res": response}
