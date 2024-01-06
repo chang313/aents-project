@@ -25,7 +25,7 @@ def 로그인(form_data: OAuth2PasswordRequestForm = Depends()):
             detail="이메일 또는 비밀번호가 잘못되었습니다.",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(data={"sub": user.email})
+    access_token = create_access_token(data={"sub": user.email, "name": user.name})
     refresh_token = create_refresh_token(data={"sub": user.email})
 
     return {

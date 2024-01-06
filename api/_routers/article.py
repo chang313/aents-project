@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
 from fastapi import UploadFile, File
-from _db import get_article_col
+from _db import get_article_col, get_latest_article, get_all_article
 from _const import SwaggerTag
 from datetime import datetime
 from _models.article import Article
@@ -39,3 +39,35 @@ def create_article(article: PostArticleModel):
         },
     }
     
+
+@router.get(path="/latest", tags=[SwaggerTag.ARTICLE])
+def read_latest_article():
+    query = get_latest_article()
+    if query:
+        latest_article = Article(**query)
+    else:
+        latest_article = None
+        return {
+            "success": False
+        }
+        
+
+    return {
+        "success": True,
+        "title": latest_article.title,
+        "writer": latest_article.writer_name,
+        "date": latest_article.date_time,
+        "image": latest_article.image
+
+    }
+
+@router.get(path="/all", tags=[SwaggerTag.ARTICLE])
+def read_all_article():
+    response = get_all_article()
+
+    return response
+
+@router.get(path="/test", tags=[SwaggerTag.ARTICLE])
+def test():
+    response = 'test'
+    return {"res": response}
