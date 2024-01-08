@@ -7,17 +7,8 @@ import { getMyArticle } from "../_requests/article";
 import { Article } from "../_lib/util";
 import { getUser } from "../_lib/user";
 
-
-interface Props {
-  data: Array<Article>;
-
-}
-
-export default function MyPage(props: Props) {
+export default function MyPage() {
   const [myArticle, setMyArticle] = useState<Array<Article>>([]);
-
-
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +30,6 @@ export default function MyPage(props: Props) {
     };
 
     fetchData();
-    
     
   }, []);
 
