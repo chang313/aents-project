@@ -6,3 +6,11 @@ export function createSlug(title: string): string {
 }
 
 
+export type Article = {
+  _id: string
+  title: string
+  content: string
+  date_time: Date
+  writer_name: string,
+  image: null
+}

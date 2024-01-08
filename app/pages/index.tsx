@@ -22,15 +22,7 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import axios from 'axios';
 import { getAllArticle } from '../_requests/article';
 import ArticleCardList from '../components/ArticleCardList';
-
-type Article = {
-  _id: string
-  title: string
-  content: string
-  date_time: Date
-  writer_name: string,
-  image: null
-}
+import { Article } from '../_lib/util';
 
 interface Props {
   /**
@@ -62,13 +54,13 @@ function Home(props: Props) {
     setUser(getUser);
   }, [])
   
-  const handleMyPageClick = () => {
-    const passingProp = {articles: data };
-    router.push({
-      pathname: LINK_MY_PAGE,
-      query: passingProp,
-    })
-  }
+  // const handleMyPageClick = () => {
+  //   const passingProp = {articles: data };
+  //   router.push({
+  //     pathname: LINK_MY_PAGE,
+  //     query: passingProp,
+  //   })
+  // }
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -98,7 +90,7 @@ function Home(props: Props) {
           
           <Box component="main" sx={{ p: 3 }}>
             <Toolbar />
-            <ArticleCardList articles={data}/>
+            <ArticleCardList articles={data} isEditable={false}/>
           </Box>
         </Box>
     //   </main>
