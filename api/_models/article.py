@@ -15,7 +15,7 @@ class ArticleBase(BaseModel):
     content: str = Field(description="글 내용")
     date_time: datetime = Field(description="글 최초 작성일시")
     writer_name: str = Field(description="글쓴이 이름")
-    image: Optional[UploadFile] = File(..., description="대표 이미지") 
+    image: Optional[str] = Field(..., description="대표 이미지 파일 이름") 
 
 # @validator("image")
 # def validate_image(cls, value):

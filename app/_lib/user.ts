@@ -28,6 +28,7 @@ export const getUser = (): getUserOutput => {
     const [_b64header, b64payload, _b64signature] = token.split('.');
     const strpayload = Buffer.from(b64payload, 'base64').toString('ascii');
     const payload = JSON.parse(strpayload);
+    console.log('user info:',payload)
     return payload;
   } catch (e) {
     return null;
