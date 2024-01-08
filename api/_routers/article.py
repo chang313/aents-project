@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, Json
 from fastapi import UploadFile, File, Form
-from _db import get_article_col, get_latest_article, get_all_article, get_my_article
+from _db import get_article_col, get_latest_article, get_all_article, get_my_article, update_target_article
 from _const import SwaggerTag
 from datetime import datetime
 from _models.article import Article
@@ -52,7 +52,6 @@ def create_article(data: Json = Form(), image: Optional[UploadFile] = File(None)
 
 
     return {
-        "success": True,
         "inserted_id": result.inserted_id,
     }
 
@@ -90,3 +89,28 @@ def read_my_article(username: str):
     response = get_my_article(username)
     print('response:', response)
     return response
+
+@router.put(path="", tags=[SwaggerTag.ARTICLE])
+def update_article(data: Json = Form(), image: Optional[UploadFile] = File(None)):
+    article_id = data['article_id']
+    title = data['title']
+    content = data['content']
+
+    saved_file_name = ''  # This will store the path to the saved image
+
+    print('image type:', type(image))
+    
+
+    if image:
+        print('it has image')
+        # Save the image and get the path
+        saved_file_name = save_uploaded_image(image)
+
+
+    print('save_file_name:', saved_file_name)
+        
+    current_datetime = datetime.now()
+    update_target_article(article_id, title, content, saved_file_name, current_datetime)
+    return {
+        "inserted_id": article_id,
+    }

@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, UpdateOne
 from _config import MONGODB_URL
 
 
@@ -29,3 +29,15 @@ def get_all_article():
 def get_my_article(username):
     result = list(get_article_col().find({'writer_name': username}).sort("date_time", -1))
     return result
+
+def update_target_article(article_id, title, content, image, datetime):
+    updates = {
+        "$set": {
+            "title": title,
+            "content": content,
+            "image": image,
+            "date_time": datetime,
+        }
+    }
+   
+    get_article_col().update_one({"_id": article_id}, updates)
