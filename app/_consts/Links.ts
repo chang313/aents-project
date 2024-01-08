@@ -15,3 +15,6 @@ export const ALLOWED_PAGES = [
   
 
 ];
+
+
+export const ImageBaseUrl = '/_f/articles/images/'
