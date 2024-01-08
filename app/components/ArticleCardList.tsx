@@ -18,6 +18,7 @@ export default function ArticleCardList({ articles, isEditable }) {
           content={article.content} 
           writer_name={article.writer_name}
           image={article.image}
+          date={article.date_time}
           priority={index < 2}
           isEditable={isEditable}/>
       ))}
