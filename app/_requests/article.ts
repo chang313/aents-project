@@ -8,6 +8,13 @@ interface postArticleRequest {
   image?: File | null;
 }
 
+interface updateArticleRequest {
+  article_id: string;
+  title: string;
+  content: string;
+  image?: File | null;
+}
+
 interface postArticleForm {
   formData: postArticleRequest
 }
@@ -81,3 +88,62 @@ export const post_article = async ({
   }
   
 };
+
+export const update_article = async ({
+  article_id,
+  title,
+  content,
+  image,
+}: updateArticleRequest): Promise<any> => {
+  try {
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({"article_id": article_id, 
+                                            "title": title, 
+                                            "content": content }));
+                                           
+    if (image) {
+      formData.append('image', image);
+    }
+
+    const response = await axios
+      .put<any>(
+        'http://localhost:6002/articles',
+        formData,
+      )
+      .then(({ data }) => ({
+        success: true,
+        ...data,
+      })) 
+      .catch(({ response}) => {
+        return {
+          success: false,
+          status: response.status,
+        }
+      });
+
+    return response;
+
+  } catch (error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      return {
+        success: false,
+        status: error.response.status,
+        message: error.response.data.message, // You can include the server's error message if available
+      };
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('No response received:', error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('Error setting up the request:', error.message);
+    }
+
+    return {
+      success: false,
+      status: 500, // Default to a generic server error status
+    };
+
+  }
+  
+}
