@@ -1,6 +1,6 @@
 import ArticleCard from './ArticleCard';
 
-export default function ArticleCardList({ articles }) {
+export default function ArticleCardList({ articles, isEditable }) {
   console.log(articles);
 
   if (!articles) {
@@ -18,7 +18,8 @@ export default function ArticleCardList({ articles }) {
           content={article.content} 
           writer_name={article.writer_name}
           image={article.image}
-          priority={index < 2}/>
+          priority={index < 2}
+          isEditable={isEditable}/>
       ))}
     </main>
   );

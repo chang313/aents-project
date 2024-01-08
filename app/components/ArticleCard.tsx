@@ -6,14 +6,20 @@ import Image from 'next/image';
 
 
 
-export default function ArticleCard({title, content, writer_name, image, priority}) {
+export default function ArticleCard({title, content, writer_name, image, priority, isEditable}) {
   const router = useRouter();
   const ImageBaseUrl = '/_f/articles/images/'
 
   const handleCardClick = () => {
     // Navigate to the target URL when the card is clicked
   
-    const url = '/articles/' + createSlug(title);
+    let url;
+    if (isEditable) {
+      url = '/my-page/' + createSlug(title);
+    } else {
+      url = '/articles/' + createSlug(title);
+    }
+    
     console.log(url)
     router.push(url);
   };
