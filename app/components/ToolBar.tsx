@@ -17,13 +17,13 @@ import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import { getUser, clearUser } from '../_lib/user';
-import { LINK_MY_PAGE, LINK_POST, LINK_SIGN_IN } from '../_consts/Links';
+import { LINK_INDEX, LINK_MY_PAGE, LINK_POST, LINK_SIGN_IN } from '../_consts/Links';
 
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About'];
 
-export default function ToolBarLayout({user, setUser, handleMyPageClick}) {
+export default function ToolBarLayout({user, setUser}) {
   const router = useRouter();
 
   return (
@@ -43,15 +43,13 @@ export default function ToolBarLayout({user, setUser, handleMyPageClick}) {
           {user ? "hello "+ user.name + '!': ''}
         </Typography>
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Button onClick={() => router.push(LINK_POST)} key="Post" sx={{ color: '#fff' }}>
-              Post
-            </Button>
-          {navItems.map((item) => (
-            <Button key={item} sx={{ color: '#fff' }}>
-              {item}
-            </Button>
-          ))}
-          <Button onClick={handleMyPageClick} key="My page" sx={{ color: '#fff' }}>
+          <Button onClick={() => router.push(LINK_INDEX)} key="My page" sx={{ color: '#fff' }}>
+            Home
+          </Button>
+          <Button onClick={() => router.push(LINK_POST)} key="Post" sx={{ color: '#fff' }}>
+            Post
+          </Button>
+          <Button onClick={() => router.push(LINK_MY_PAGE)} key="My page" sx={{ color: '#fff' }}>
             My page
           </Button>
 

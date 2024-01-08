@@ -12,8 +12,13 @@ interface postArticleForm {
   formData: postArticleRequest
 }
 
-export const getAllArticle = async () => {
+export const getMyArticle = async (username) => {
   // const data = await axios.get('/_f/articles/all');
+  const data = await axios.get('http://localhost:6002/articles/my-articles/'+username)
+  return data;
+}
+
+export const getAllArticle = async () => {
   const data = await axios.get('http://ams-api:8000/articles/all')
   return data;
 }

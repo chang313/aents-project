@@ -25,3 +25,7 @@ def get_latest_article():
 def get_all_article():
     result = list(get_article_col().find({}).sort("date_time", -1 ))
     return result
+
+def get_my_article(username):
+    result = list(get_article_col().find({'writer_name': username}).sort("date_time", -1))
+    return result

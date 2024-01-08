@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { LINK_SIGN_IN, ALLOWED_PAGES, LINK_MY_PAGE } from '../_consts/Links';
 import { Backdrop } from '@mui/material';
 import Layout from '../components/Layout';
-import ToolBarLayout from '../components/ToolBar';
 
 const PageHead = () => (
   <Head>
@@ -39,7 +38,9 @@ export default function App({
     if (ALLOWED_PAGES.some((path) => router.pathname.startsWith(path))) // change it allows all path that has substring 
       return (
       
-        <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+        // <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+        <Layout user={user} setUser={setUser} >
+        
           <Component {...pageProps} />
         </Layout>
     
@@ -47,30 +48,19 @@ export default function App({
       )
     if (!user) return <Backdrop open />;
     return (
-      <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+      // <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+      <Layout user={user} setUser={setUser} >
         <Component {...pageProps} />
       </Layout>
         
     );
   };
 
-  const handleMyPageClick = () => {
-    console.log('handleMyPageClick start')
-    // select 해서 넘어가기
-    
-    const articleData = pageProps.data;
-    console.log('pageProps.data:', articleData)
-    const passingProp = {articles: articleData };
-    router.push({
-      pathname: LINK_MY_PAGE,
-      query: passingProp,
-    })
-  }
-
   return (
     <>
       <PageHead />
       <FilteredComponent />
+    
     </>
   );
 }

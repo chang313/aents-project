@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, Json
 from fastapi import UploadFile, File, Form
-from _db import get_article_col, get_latest_article, get_all_article
+from _db import get_article_col, get_latest_article, get_all_article, get_my_article
 from _const import SwaggerTag
 from datetime import datetime
 from _models.article import Article
@@ -82,4 +82,11 @@ def read_latest_article():
 def read_all_article():
     response = get_all_article()
 
+    return response
+
+
+@router.get(path="/my-articles/{username}", tags=[SwaggerTag.ARTICLE])
+def read_my_article(username: str):
+    response = get_my_article(username)
+    print('response:', response)
     return response
