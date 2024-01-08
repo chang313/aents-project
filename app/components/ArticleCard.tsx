@@ -1,9 +1,14 @@
 import { Container, Typography, Card, CardContent, CardMedia, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { createSlug } from '../_lib/util';
+import React from 'react';
+import Image from 'next/image';
 
-export default function Article({title, content, writer_name}) {
+
+
+export default function ArticleCard({title, content, writer_name, image, priority}) {
   const router = useRouter();
+  const ImageBaseUrl = '/_f/articles/images/'
 
   const handleCardClick = () => {
     // Navigate to the target URL when the card is clicked
@@ -15,16 +20,24 @@ export default function Article({title, content, writer_name}) {
 
   return (
     <Container>
-      <Card onClick={handleCardClick} sx={{ cursor: 'pointer', width: 1200, height: 400 }}>
+      <Card onClick={handleCardClick} sx={{ cursor: 'pointer', width: 1200, height: 400, margin: '10px', borderRadius: 2, }}>
         <Grid container>
           {/* Image on the left */}
           <Grid item xs={12} sm={6}>
+            {image ? 
+            <Image 
+              src={ImageBaseUrl+image} 
+              alt="Uploaded Image"
+              width={600}
+              height={400}
+              priority={priority}/>
+            : 
             <CardMedia
               component="img"
               height="400"
               image="/no_image.jpg"
               alt="Image"
-            />
+            />}
           </Grid>
           {/* Title on the right */}
           <Grid item xs={12} sm={6}>
@@ -36,7 +49,7 @@ export default function Article({title, content, writer_name}) {
                 {content}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {writer_name}
+                Author: {writer_name}
               </Typography>
 
             </CardContent>

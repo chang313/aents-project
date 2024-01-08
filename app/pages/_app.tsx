@@ -1,11 +1,14 @@
+import React from 'react';
 import '../styles/globals.css';
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import { getUser } from '../_lib/user';
 import { useRouter } from 'next/router';
-import { LINK_SIGN_IN, ALLOWED_PAGES } from '../_consts/Links';
+import { LINK_SIGN_IN, ALLOWED_PAGES, LINK_MY_PAGE } from '../_consts/Links';
 import { Backdrop } from '@mui/material';
+import Layout from '../components/Layout';
+import ToolBarLayout from '../components/ToolBar';
 
 const PageHead = () => (
   <Head>
@@ -30,14 +33,39 @@ export default function App({
     }
   }, [pageProps.protected, router]);
 
+
   const FilteredComponent = () => {
     console.log('router.pathname:', router.pathname, router.query);
     if (ALLOWED_PAGES.some((path) => router.pathname.startsWith(path))) // change it allows all path that has substring 
-    // if (ALLOWED_PAGES.includes(router.pathname))
-      return <Component {...pageProps} />;
+      return (
+      
+        <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+          <Component {...pageProps} />
+        </Layout>
+    
+          
+      )
     if (!user) return <Backdrop open />;
-    return <Component {...pageProps} />;
+    return (
+      <Layout user={user} setUser={setUser} handleMyPageClick={handleMyPageClick}>
+        <Component {...pageProps} />
+      </Layout>
+        
+    );
   };
+
+  const handleMyPageClick = () => {
+    console.log('handleMyPageClick start')
+    // select 해서 넘어가기
+    
+    const articleData = pageProps.data;
+    console.log('pageProps.data:', articleData)
+    const passingProp = {articles: articleData };
+    router.push({
+      pathname: LINK_MY_PAGE,
+      query: passingProp,
+    })
+  }
 
   return (
     <>

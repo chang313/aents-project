@@ -17,11 +17,11 @@ import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import { getUser, clearUser } from '../_lib/user';
-import { LINK_INDEX, LINK_SIGN_IN } from '../_consts/Links';
-import Page from '../components/ArticleCardList';
+import { LINK_MY_PAGE, LINK_POST, LINK_SIGN_IN } from '../_consts/Links';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import axios from 'axios';
 import { getAllArticle } from '../_requests/article';
+import ArticleCardList from '../components/ArticleCardList';
 
 type Article = {
   _id: string
@@ -52,7 +52,7 @@ function Home(props: Props) {
   const { window, data } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  console.log('fetched data:', data);
+  // console.log('fetched data:', data);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -61,6 +61,14 @@ function Home(props: Props) {
   useEffect(() => {
     setUser(getUser);
   }, [])
+  
+  const handleMyPageClick = () => {
+    const passingProp = {articles: data };
+    router.push({
+      pathname: LINK_MY_PAGE,
+      query: passingProp,
+    })
+  }
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -84,75 +92,17 @@ function Home(props: Props) {
 
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
+    // <div className={styles.container}>
+    //   <main className={styles.main}>
         <Box sx={{ display: 'flex' }}>
-          <CssBaseline />
-          <AppBar component="nav">
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                Blog 
-              </Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                {user ? "hello "+ user.name + '!': ''}
-              </Typography>
-              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                {navItems.map((item) => (
-                  <Button key={item} sx={{ color: '#fff' }}>
-                    {item}
-                  </Button>
-                ))}
-                <Button onClick={() => clearUser() && router.push(LINK_SIGN_IN)} sx={{ color: '#fff'}}>
-                  {user ? 'Sign out' : 'Sign in'}
-                </Button>
-        
-              </Box>
-            </Toolbar>
-          </AppBar>
-          <nav>
-            <Drawer
-              container={container}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                display: { xs: 'block', sm: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </nav>
+          
           <Box component="main" sx={{ p: 3 }}>
             <Toolbar />
-            <Typography>
-              Main page article
-
-            </Typography>
-            <Page articles={data}/>
+            <ArticleCardList articles={data}/>
           </Box>
         </Box>
-      </main>
-    </div>
+    //   </main>
+    // </div>
   );
 }
 
