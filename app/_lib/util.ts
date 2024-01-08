@@ -14,3 +14,14 @@ export type Article = {
   writer_name: string,
   image: null
 }
+
+
+export function datetime2YearMonthDay(datetime: string): string {
+  const dateObj = new Date(datetime);
+  const year = dateObj.toISOString().substring(0, 4);
+  const month = dateObj.toISOString().substring(5, 7);
+  const day = dateObj.toISOString().substring(8, 10);
+
+  const korYearMonthDay = year + '년 ' + month + '월 ' + day + '일 ' ;
+  return korYearMonthDay;
+}
