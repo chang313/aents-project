@@ -30,6 +30,7 @@ export default function Post() {
     const user = getUser();
     const writer_name = user ? user.name : null;
    
+    console.log('image type:', typeof image);
     const response = await post_article({title, content, writer_name, image});
     if (response.success) {
       console.log('blog posting success!');
@@ -65,10 +66,9 @@ export default function Post() {
 
   return (
     <>
-      <main>You can post articles in this page!!</main>
-      <div>
+      
         <h1>Post an Article</h1>
-        <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
+        <form onSubmit={handleSubmit} style={{ width: 1200,margin: 'auto' }}>
           <Box marginBottom={2}>
             <TextField
               label="Title"
@@ -80,7 +80,7 @@ export default function Post() {
           </Box>
           <Box marginBottom={2}>
             <TextareaAutosize
-              minRows={3}
+              minRows={10}
               placeholder="Content"
               style={{ width: '100%', padding: '8px', resize: 'none' }}
               value={content}
@@ -98,12 +98,12 @@ export default function Post() {
     
           </Box>
           <Box>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button type="submit" variant="contained" color="primary" >
               Submit
             </Button>
           </Box>
         </form>
-      </div>
+    
     </>
     
   )

@@ -35,7 +35,8 @@ export default function MyPage() {
 
   return (
     <>
-      <p> this is my page</p>
+      <h1>This is My Page. </h1>
+      <h3> you can select an article to edit it</h3>
       <ArticleCardList articles={myArticle} isEditable={true}/>
     </>
     
