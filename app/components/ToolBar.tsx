@@ -43,7 +43,7 @@ export default function ToolBarLayout({user, setUser}) {
           {user ? "hello "+ user.name + '!': ''}
         </Typography>
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Button onClick={() => router.push(LINK_INDEX)} key="My page" sx={{ color: '#fff' }}>
+          <Button onClick={() => router.push(LINK_INDEX)} key="Home" sx={{ color: '#fff' }}>
             Home
           </Button>
           <Button onClick={() => router.push(LINK_POST)} key="Post" sx={{ color: '#fff' }}>
