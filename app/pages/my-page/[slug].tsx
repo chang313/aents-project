@@ -59,8 +59,11 @@ export default function EditablePage() {
     console.log('typeof selectedImage', typeof selectedImage)
     console.log('selectedImage', selectedImage)
     console.log('parameter types:', typeof articleId.current, typeof title, typeof content);
+
+    const isImageChange = !(!selectedImage && uploadedImage && uploadedImgShow);
+
    
-    const response = await update_article({article_id: articleId.current, title, content, image: selectedImage});
+    const response = await update_article({article_id: articleId.current, title, content, image: selectedImage, isImageChange});
     if (response.success) {
       console.log('blog updating success!');
       setTitle('');
@@ -109,7 +112,12 @@ export default function EditablePage() {
     setUploadedImgShow(false);
   }
 
-  // const handleRestoreImage = 
+  const handleInitializeImage = () => {
+    setSelectedImage(null);
+    setSelectedImageStr('');
+    setImageName('');
+    setUploadedImgShow(true);
+  }
 
 
   return (
@@ -138,6 +146,7 @@ export default function EditablePage() {
             />
            }
           <Button onClick={handleDeleteImage} variant="contained" color="primary" > Delete</Button>
+          <Button onClick={handleInitializeImage} variant="contained" color="primary" >Initialize</Button>
          
         </Grid>
         

@@ -13,6 +13,7 @@ interface updateArticleRequest {
   title: string;
   content: string;
   image?: File | null;
+  isImageChange: boolean;
 }
 
 interface postArticleForm {
@@ -94,12 +95,14 @@ export const update_article = async ({
   title,
   content,
   image,
+  isImageChange,
 }: updateArticleRequest): Promise<any> => {
   try {
     const formData = new FormData();
     formData.append('data', JSON.stringify({"article_id": article_id, 
                                             "title": title, 
-                                            "content": content }));
+                                            "content": content,
+                                            "isImageChange": isImageChange }));
                                            
     if (image) {
       formData.append('image', image);

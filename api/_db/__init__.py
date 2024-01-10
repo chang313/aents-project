@@ -30,14 +30,26 @@ def get_my_article(username):
     result = list(get_article_col().find({'writer_name': username}).sort("date_time", -1))
     return result
 
-def update_target_article(article_id, title, content, image, datetime):
-    updates = {
-        "$set": {
-            "title": title,
-            "content": content,
-            "image": image,
-            "date_time": datetime,
+def update_target_article(article_id, title, content, image, datetime, isImageChange):
+    if isImageChange:
+        updates = {
+            "$set": {
+                "title": title,
+                "content": content,
+                "image": image,
+                "date_time": datetime,
+            }
         }
-    }
+    else:
+        updates = {
+            "$set": {
+                "title": title,
+                "content": content,
+                "date_time": datetime,
+            }
+        }
+
+
+    
    
     get_article_col().update_one({"_id": article_id}, updates)

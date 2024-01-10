@@ -95,6 +95,7 @@ def update_article(data: Json = Form(), image: Optional[UploadFile] = File(None)
     article_id = data['article_id']
     title = data['title']
     content = data['content']
+    isImageChange = data['isImageChange']
 
     saved_file_name = ''  # This will store the path to the saved image
 
@@ -110,7 +111,7 @@ def update_article(data: Json = Form(), image: Optional[UploadFile] = File(None)
     print('save_file_name:', saved_file_name)
         
     current_datetime = datetime.now()
-    update_target_article(article_id, title, content, saved_file_name, current_datetime)
+    update_target_article(article_id, title, content, saved_file_name, current_datetime, isImageChange)
     return {
         "inserted_id": article_id,
     }
