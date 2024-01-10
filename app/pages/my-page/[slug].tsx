@@ -31,7 +31,7 @@ export default function EditablePage() {
   const [uploadedImgShow, setUploadedImgShow] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const dialogTitle = "정말 업로드 하시곘습니까?"
+  const dialogTitle = "정말 업데이트 하시곘습니까?"
   const dialogContent = "'네'를 누르시면, 복구할 수 없습니다"
   const button1Text = "네"
   const button2Text = "아니오"
