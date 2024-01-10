@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, Json
 from fastapi import UploadFile, File, Form
-from _db import get_article_col, get_latest_article, get_all_article, get_my_article, update_target_article
+from _db import get_article_col, get_latest_article, get_all_article, get_my_article, update_target_article, delete_target_article
 from _const import SwaggerTag
 from datetime import datetime
 from _models.article import Article
@@ -114,4 +114,12 @@ def update_article(data: Json = Form(), image: Optional[UploadFile] = File(None)
     update_target_article(article_id, title, content, saved_file_name, current_datetime, isImageChange)
     return {
         "inserted_id": article_id,
+    }
+
+@router.delete(path="/{article_id}", tags=[SwaggerTag.ARTICLE])
+def delete_article(article_id: str ):
+    delete_target_article(article_id)
+
+    return {
+        "deleted_article_id": article_id,
     }

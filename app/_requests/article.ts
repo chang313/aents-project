@@ -150,3 +150,24 @@ export const update_article = async ({
   }
   
 }
+
+export const deleteArticle = async (article_id: string): Promise<any> => {
+  const response = await axios
+      .delete<any>(
+        'http://localhost:6002/articles/' + article_id,
+      )
+      .then(({ data }) => ({
+        success: true,
+        ...data,
+      })) 
+      .catch(({ response}) => {
+        return {
+          success: false,
+          status: response.status,
+        }
+      });
+
+  return response;
+
+
+}

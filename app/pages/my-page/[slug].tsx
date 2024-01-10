@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { post_article, update_article } from '../../_requests/article';
+import { deleteArticle, post_article, update_article } from '../../_requests/article';
 import { getUser } from '../../_lib/user';
 import { TextField, TextareaAutosize, Button, Box, Input, CardMedia, Grid } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -30,19 +30,25 @@ export default function EditablePage() {
   const [imageName, setImageName] = useState('');
   const [uploadedImgShow, setUploadedImgShow] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const dialogTitle = "정말 업데이트 하시곘습니까?"
   const dialogContent = "'네'를 누르시면, 복구할 수 없습니다"
   const button1Text = "네"
   const button2Text = "아니오"
 
-  const handleClickOpen = () => {
-    setDialogOpen(true);
-  };
+  const deleteDialogTitle = "정말 글을 삭제하시곘습니까?"
+
 
   const handleClose = () => {
     setDialogOpen(false);
   };
+
+  const handleDeleteClose = () => {
+    setDeleteDialogOpen(false);
+  }
+
+
 
   const router = useRouter();
   console.log('router.query:', router.query.data);
@@ -71,6 +77,10 @@ export default function EditablePage() {
     setDialogOpen(true)
   }
 
+  const handleDelSubmitClick = () => {
+    setDeleteDialogOpen(true);
+  }
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();  
@@ -89,6 +99,7 @@ export default function EditablePage() {
       setContent('');
       setSelectedImage(null);
       setImageName('');
+      uploadedImage.current = null;
      
       // Reset the form to clear the file input
       // const form = e.target as HTMLFormElement;
@@ -139,6 +150,24 @@ export default function EditablePage() {
     setSelectedImageStr('');
     setImageName('');
     setUploadedImgShow(true);
+  }
+
+  const handleDelete = async () => {
+    const response = await deleteArticle(articleId.current);
+
+    if (response.success) {
+      console.log('article delete success!');
+      setTitle('');
+      setContent('');
+      setSelectedImage(null);
+      setImageName('');
+      uploadedImage.current = null;
+
+    } else {
+      console.log('article delete failed..')
+    }
+
+    setDeleteDialogOpen(false);
   }
 
 
@@ -208,11 +237,23 @@ export default function EditablePage() {
             </Button>
           </Box>
         </form>
+        <Button onClick={handleDelSubmitClick} type="button" variant='outlined' color="warning"> 
+          Delete article
+        </Button>
         <AlertDialog 
           handleSubmit={handleSubmit}
           open={dialogOpen}
           handleClose={handleClose}
           dialogTitle={dialogTitle}
+          dialogContent={dialogContent} 
+          button1Text={button1Text} 
+          button2Text={button2Text}>
+        </AlertDialog>
+        <AlertDialog 
+          handleSubmit={handleDelete}
+          open={deleteDialogOpen}
+          handleClose={handleDeleteClose}
+          dialogTitle={deleteDialogTitle}
           dialogContent={dialogContent} 
           button1Text={button1Text} 
           button2Text={button2Text}>

@@ -49,7 +49,7 @@ def update_target_article(article_id, title, content, image, datetime, isImageCh
             }
         }
 
-
-    
-   
     get_article_col().update_one({"_id": article_id}, updates)
+
+def delete_target_article(article_id):
+    get_article_col().delete_one({"_id": article_id})
