@@ -4,6 +4,7 @@ import { getUser } from '../_lib/user';
 import { TextField, TextareaAutosize, Button, Box, Input } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import AlertDialog from '../components/Dialog';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -23,6 +24,20 @@ export default function Post() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageName, setImageName] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const dialogTitle = "정말 업로드 하시곘습니까?"
+  const dialogContent = "'네'를 누르시면, 복구할 수 없습니다"
+  const button1Text = "네"
+  const button2Text = "아니오"
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleSubmitClick = () => {
+    setDialogOpen(true)
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,12 +56,14 @@ export default function Post() {
      
 
       // Reset the form to clear the file input
-      const form = e.target as HTMLFormElement;
-      form.reset();
+      // const form = e.target as HTMLFormElement;
+      // form.reset();
 
     } else {
       console.log('blog posting failed..')
     }
+
+    setDialogOpen(false);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +85,7 @@ export default function Post() {
     <>
       
         <h1>Post an Article</h1>
-        <form onSubmit={handleSubmit} style={{ width: 1200,margin: 'auto' }}>
+        <form style={{ width: 1200,margin: 'auto' }}>
           <Box marginBottom={2}>
             <TextField
               label="Title"
@@ -98,11 +115,20 @@ export default function Post() {
     
           </Box>
           <Box>
-            <Button type="submit" variant="contained" color="primary" >
+            <Button onClick={handleSubmitClick} variant="contained" color="primary" >
               Submit
             </Button>
           </Box>
         </form>
+        <AlertDialog
+          handleSubmit={handleSubmit}
+          open={dialogOpen}
+          handleClose={handleClose}
+          dialogTitle={dialogTitle}
+          dialogContent={dialogContent} 
+          button1Text={button1Text} 
+          button2Text={button2Text}>
+        </AlertDialog>
     
     </>
     
