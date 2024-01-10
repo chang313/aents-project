@@ -27,6 +27,7 @@ export default function EditablePage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedImageStr, setSelectedImageStr] = useState('');
   const [imageName, setImageName] = useState('');
+  const [uploadedImgShow, setUploadedImgShow] = useState(true);
 
   const router = useRouter();
   console.log('router.query:', router.query.data);
@@ -80,6 +81,7 @@ export default function EditablePage() {
     // Assuming it's a single file input
     const selectedFile = e.target.files?.[0];
     setSelectedImage(selectedFile);
+    console.log('selectedFile:', selectedFile);
     if (selectedFile) {
       const fileName = selectedFile.name;
       console.log('selected filename: ',fileName)
@@ -100,6 +102,15 @@ export default function EditablePage() {
 
   };
 
+  const handleDeleteImage = () => {
+    setSelectedImage(null);
+    setSelectedImageStr('');
+    setImageName('');
+    setUploadedImgShow(false);
+  }
+
+  // const handleRestoreImage = 
+
 
   return (
     <>
@@ -109,7 +120,7 @@ export default function EditablePage() {
             <Image src={selectedImageStr} alt="Selected Image" width={300} height={200} /> 
           }
 
-          {(!selectedImage && uploadedImage.current) &&
+          {(!selectedImage && uploadedImage.current && uploadedImgShow) &&
             <Image 
               src={ImageBaseUrl+uploadedImage.current} 
               alt="Uploaded Image"
@@ -118,7 +129,7 @@ export default function EditablePage() {
               priority={true}
             /> 
           } 
-          {(!selectedImage && !uploadedImage.current) &&
+          {(!selectedImage && (!uploadedImage.current || (uploadedImage.current && !uploadedImgShow))) &&
             <Image 
               src="/no_image.jpg"
               height={200}
@@ -126,8 +137,10 @@ export default function EditablePage() {
               alt="NO IMAGE"
             />
            }
-
+          <Button onClick={handleDeleteImage} variant="contained" color="primary" > Delete</Button>
+         
         </Grid>
+        
         
         <form onSubmit={handleSubmit} style={{ width: 1200, margin: 'auto' }}>
           <Box marginBottom={2}>
