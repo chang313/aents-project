@@ -7,6 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import { ImageBaseUrl } from '../../_consts/Links';
+import AlertDialog from '../../components/Dialog';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -28,6 +29,20 @@ export default function EditablePage() {
   const [selectedImageStr, setSelectedImageStr] = useState('');
   const [imageName, setImageName] = useState('');
   const [uploadedImgShow, setUploadedImgShow] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const dialogTitle = "정말 업로드 하시곘습니까?"
+  const dialogContent = "'네'를 누르시면, 복구할 수 없습니다"
+  const button1Text = "네"
+  const button2Text = "아니오"
+
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
 
   const router = useRouter();
   console.log('router.query:', router.query.data);
@@ -52,6 +67,10 @@ export default function EditablePage() {
     
   }, [])
 
+  const handleSubmitClick = () => {
+    setDialogOpen(true)
+  }
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();  
@@ -72,12 +91,15 @@ export default function EditablePage() {
       setImageName('');
      
       // Reset the form to clear the file input
-      const form = e.target as HTMLFormElement;
-      form.reset();
+      // const form = e.target as HTMLFormElement;
+      // console.log('form:', form)
+      // form.reset();
 
     } else {
       console.log('blog updating failed..')
     }
+
+    setDialogOpen(false);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +173,7 @@ export default function EditablePage() {
         </Grid>
         
         
-        <form onSubmit={handleSubmit} style={{ width: 1200, margin: 'auto' }}>
+        <form  style={{ width: 1200, margin: 'auto' }}>
           <Box marginBottom={2}>
             <TextField
               label="Title"
@@ -181,11 +203,20 @@ export default function EditablePage() {
     
           </Box>
           <Box>
-            <Button type="submit" variant="contained" color="primary" >
+            <Button onClick={handleSubmitClick} type="button" variant="contained" color="primary" >
               Update
             </Button>
           </Box>
         </form>
+        <AlertDialog 
+          handleSubmit={handleSubmit}
+          open={dialogOpen}
+          handleClose={handleClose}
+          dialogTitle={dialogTitle}
+          dialogContent={dialogContent} 
+          button1Text={button1Text} 
+          button2Text={button2Text}>
+        </AlertDialog>
     
     </>
     
