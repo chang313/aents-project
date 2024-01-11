@@ -1,4 +1,4 @@
-import { Container, Typography, Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { Container, Typography, Card, CardContent, CardMedia, Grid, CardActionArea } from '@mui/material';
 import { useRouter } from 'next/router';
 import { createSlug, datetime2YearMonthDay } from '../_lib/util';
 import React from 'react';
@@ -30,7 +30,12 @@ export default function ArticleCard({id, title, content, writer_name, image, dat
       });
     } else {
       url = LINK_ARTICLES + '/' + createSlug(title);
-      router.push(url);
+
+      const data = {id, title, content, image, date, writer_name };
+      router.push({
+        pathname: url,
+        query: { data: JSON.stringify(data) },
+      });
     }
     
     console.log(url)
@@ -38,8 +43,9 @@ export default function ArticleCard({id, title, content, writer_name, image, dat
   };
 
   return (
-    <Container>
+    <Container style={{padding:'5px'}}>
       <Card onClick={handleCardClick} sx={{ cursor: 'pointer', width: 1200, height: 400, margin: '10px', borderRadius: 2, }}>
+        <CardActionArea>
         <Grid container>
           {/* Image on the left */}
           <Grid item xs={12} sm={6}>
@@ -59,24 +65,33 @@ export default function ArticleCard({id, title, content, writer_name, image, dat
             />}
           </Grid>
           {/* Title on the right */}
-          <Grid item xs={12} sm={6}>
-            <CardContent>
-              <Typography variant="h4" component="div">
-                {title}
-              </Typography>
-              {/* <Typography variant="body2" color="text.secondary">
-                {content}
-              </Typography> */}
-              <Typography variant="body2" color="text.secondary">
-                Author: {writer_name}
-              </Typography>
-              {/* <Typography>
-                {korYearMonthDay}
-              </Typography> */}
+          {/* <Grid item xs={12} sm={6} spacing={3} style={{  display: 'flex', flexDirection: 'column', height: '100%' }}> */}
+            {/* <CardContent > */}
+              <Grid container item xs={12} sm={6}  style={{ display: 'flex', flexDirection: 'column', justifyContent:'space-between', padding:'20px'}} >
+                <Grid item >
+                  <Typography variant="h4" component="div">
+                    {title}
+                  </Typography>
+                </Grid>
+              
+                <Grid item  >
+                  <Typography variant="body1" color="text.secondary">
+                    Author : {writer_name}
+                  </Typography>
+        
+                  <Typography variant='body3'>
+                    Updated : {korYearMonthDay}
+                  </Typography>
+                </Grid>
 
-            </CardContent>
+              </Grid>
+              
+              
+
+            {/* </CardContent> */}
           </Grid>
-        </Grid>
+        {/* </Grid> */}
+        </CardActionArea>
       </Card>
     </Container>
   );
