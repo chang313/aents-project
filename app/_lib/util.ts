@@ -2,7 +2,8 @@ import { ALLOWED_PAGES } from "../_consts/Links";
 
 export function createSlug(title: string): string {
   // Replace spaces with hyphens and convert to lowercase
-  return title.toLowerCase().replace(/\s+/g, '-');
+  const removeSlash = title.replace(/\//g, ' ');
+  return removeSlash.toLowerCase().replace(/\s+/g, '-');
 }
 
 
@@ -25,3 +26,4 @@ export function datetime2YearMonthDay(datetime: string): string {
   const korYearMonthDay = year + '년 ' + month + '월 ' + day + '일 ' ;
   return korYearMonthDay;
 }
+
