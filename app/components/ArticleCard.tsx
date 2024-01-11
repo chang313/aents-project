@@ -6,9 +6,19 @@ import Image from 'next/image';
 import { LINK_ARTICLES, LINK_MY_PAGE } from '../_consts/Links';
 import { ImageBaseUrl } from '../_consts/Links';
 
+interface Props {
+  id: string;
+  title: string;
+  content: string;
+  writer_name: string;
+  image: string;
+  date: string;
+  priority: boolean;
+  isEditable: boolean
+}
 
-
-export default function ArticleCard({id, title, content, writer_name, image, date, priority, isEditable}) {
+export default function ArticleCard(props: Props) {
+  const {id, title, content, writer_name, image, date, priority, isEditable} = props;
   const router = useRouter();
   // const ImageBaseUrl = '/_f/articles/images/'
 
