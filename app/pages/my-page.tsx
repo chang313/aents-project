@@ -7,7 +7,17 @@ import { getMyArticle } from "../_requests/article";
 import { Article } from "../_lib/util";
 import { getUser } from "../_lib/user";
 
-export default function MyPage() {
+interface Props {
+  protected: boolean;
+}
+
+export const getStaticProps = async () => {
+  return {props: {
+    protected: true
+  }}
+}
+
+export default function MyPage(props: Props) {
   const [myArticle, setMyArticle] = useState<Array<Article>>([]);
 
   useEffect(() => {
@@ -16,12 +26,14 @@ export default function MyPage() {
       try {
         console.log('in try');
         const userSession = getUser();
-        const username = userSession.name;
-        const res = await getMyArticle(username);
-        console.log('fetch done');
+        if (userSession) {
+          const username = userSession.name;
+          const res = await getMyArticle(username);
+          console.log('fetch done');
 
-        const fetchedData = res.data;
-        setMyArticle(fetchedData);
+          const fetchedData = res.data;
+          setMyArticle(fetchedData);
+        }
 
       } catch (error) {
         console.error('Error fetching data:', error.message);

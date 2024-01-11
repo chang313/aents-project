@@ -25,10 +25,14 @@ export default function App({
   const router = useRouter();
 
   useEffect(() => {
+    console.log('pageProps.protected:', pageProps.protected)
     if (pageProps.protected) {
       const user = getUser();
-      if (user === null) router.push(LINK_SIGN_IN);
-      else setUser(user);
+      if (user === null) {
+        router.push(LINK_SIGN_IN);
+        console.log('tried to route somewhere. but no user info. ')
+      } else setUser(user);
+      
     }
   }, [pageProps.protected, router]);
 

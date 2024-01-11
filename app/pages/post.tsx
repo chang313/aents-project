@@ -6,6 +6,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import AlertDialog from '../components/Dialog';
 
+
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -18,7 +20,18 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function Post() {
+interface Props {
+  protected: boolean;
+}
+
+export const getStaticProps = async () => {
+  return {props: {
+    protected: true
+  }}
+}
+
+
+export default function Post(props: Props) {
   // State for handling form input
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -30,6 +43,9 @@ export default function Post() {
   const dialogContent = "'네'를 누르시면, 복구할 수 없습니다"
   const button1Text = "네"
   const button2Text = "아니오"
+
+  // console.log('protected:', protect)
+  console.log('protected:', props.protected)
 
   const handleClose = () => {
     setDialogOpen(false);

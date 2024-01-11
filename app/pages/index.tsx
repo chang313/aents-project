@@ -31,6 +31,7 @@ interface Props {
    */
   window?: () => Window;
   data: Array<Article>;
+  protected: boolean;
 }
 
 const drawerWidth = 240;
@@ -43,6 +44,7 @@ function Home(props: Props) {
 
   const { window, data } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  console.log('props:', props.protected);
 
   // console.log('fetched data:', data);
 
