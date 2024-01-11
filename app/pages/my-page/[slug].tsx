@@ -224,7 +224,7 @@ export default function EditablePage() {
           <Box display="flex" marginBottom={2}>
             <Button size="small" component="label" variant="contained" startIcon={<CloudUploadIcon />} >
               Upload file
-              <input id={"file-input"} style={{ display: 'none' }} type="file" name="imageFile"
+              <input id={"file-input"} style={{ display: 'none' }} type="file" name="imageFile" accept="image/*"
                 onChange={handleImageChange} />
               <VisuallyHiddenInput type="file" />
             </Button>
