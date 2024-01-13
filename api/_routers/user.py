@@ -45,3 +45,15 @@ def 사용자_추가(user: PostUserModel):
             "email": new_user_model.email,
         },
     }
+
+@router.get(path="/{email}", tags=[SwaggerTag.USER])
+def email_exist(email: str):
+    user_col = get_user_col()
+    if (user_col.find_one({"email": email}) != None):
+        return {
+            "email_exist": True
+        }
+    
+    return {
+        "email_exist": False
+    }

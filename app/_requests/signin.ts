@@ -18,6 +18,12 @@ interface signinFailureResponse {
   detail: any;
 }
 
+interface signupRequest {
+  name: string;
+  email: string;
+  plain_password: string;
+}
+
 type signinResponse = signinSuccessResponse | signinFailureResponse;
 
 export const request_signin = async ({
@@ -55,3 +61,43 @@ export const request_signin = async ({
     });
   return response;
 };
+
+export const request_signup = async ({
+  name,
+  email,
+  plain_password,
+}: signupRequest): Promise<any> => {
+  const response = await axios
+    .post<any>(
+      'http://localhost:6002/user',
+      {name, email, plain_password}
+    )
+    .then(({data}) => (data))
+    .catch(({ response}) => {
+      switch (response.status) {
+        case 409:
+          return {
+            success: false,
+            message: response.data.detail
+          };
+        default:
+          return {
+            success: false,
+            message: "Unkown error",
+          }
+      }
+    })
+  return response
+}
+
+export const email_exist = async (
+  email
+: string): Promise<any> => {
+  const response = await axios
+    .get('http://localhost:6002/user/' + email)
+    .then(({data}) => (data))
+
+  return response
+
+  
+}
